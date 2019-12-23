@@ -385,7 +385,7 @@ namespace KittingMst_2
             ledReelsForCurrentOrderList.Clear();
             List<LedInfo> led12NcIdList = new List<LedInfo>();
 
-            var reelsFor12Nc = Graffiti.MST.ComponentsTools.GetDbData.GetComponentsDataFrom12Nc(selectedOrder.ledCol12NcGraffitiOnly);
+            var reelsFor12Nc = Graffiti.MST.ComponentsTools.GetDbData.GetComponentsDataFrom12NcBatch(selectedOrder.ledCol12NcGraffitiOnly);
             var reelForThisOrder = reelsFor12Nc.Where(r => r.ConnectedToOrder.ToString() == orderNo);
             foreach (var reel in reelForThisOrder)
             {
@@ -394,7 +394,7 @@ namespace KittingMst_2
                 ledReelsForCurrentOrderList.Add(new LedReelsInCurrentOrderStruct
                 {
                     Id = reel.Id,
-                    Nc12 = reel.Nc12,
+                    Nc12 = reel.Nc12_Formated_Rank,
                     Collective = reel.Nc12,
                     Qty = (int)reel.Quantity,
                     CurrentOrder = reel.ConnectedToOrder.ToString()
@@ -406,8 +406,7 @@ namespace KittingMst_2
         {
             if (!LedCollectiveDb.nc12ToCollective.ContainsKey(member12Nc)) return member12Nc;
             var collective = LedCollectiveDb.nc12ToCollective[member12Nc];
-
-
+            
             var dtModels = DevTools.dtDb.Where(x => x.nc12 == collective.collective);
             if (dtModels.Count() == 0)
             {

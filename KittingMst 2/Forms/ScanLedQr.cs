@@ -40,10 +40,10 @@ namespace KittingMst_2.Forms
         {
             if(e.KeyCode == Keys.Return)
             {
-                string[] split = textBox1.Text.Split('\t');
-                if (split.Length > 4)
+                string[] split = textBox1.Text.Split(new string[] { "|ID:" }, StringSplitOptions.None);
+                if (split.Length == 2)
                 {
-                    id = split[5];
+                    id = split[1];
                     nc12 = split[0];
                     fullQrText = textBox1.Text;
                     this.DialogResult = DialogResult.OK;
