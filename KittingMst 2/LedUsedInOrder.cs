@@ -16,12 +16,19 @@ namespace KittingMst_2
 {
     class LedUsedInOrder
     {
+        public class LedsUsedInCurrentOrderContainer
+        {
+            public static List<Graffiti.MST.ComponentsTools.ComponentStruct> ledReelsForCurrentOrderList = new List<Graffiti.MST.ComponentsTools.ComponentStruct>();
+            public static Dictionary<string, string> nc12RankToBinLetter()
+            {
+                return Graffiti.MST.KittingTools.ListNc12RankToBinLetter(ledReelsForCurrentOrderList);
+            }
+        }
         public static ObjectListView lvLedUsedForOrder;
         public static ObjectListView lvLedsSummary;
-
-        public static List<LedReelsInCurrentOrderStruct> ledReelsForCurrentOrderList = new List<LedReelsInCurrentOrderStruct>();
         private static List<ListViewColumns> ledSummarySource = new List<ListViewColumns>();
-        public static List<LedReelStruct> ledsInClimateChamber = new List<LedReelStruct>();
+
+        public static IEnumerable<Graffiti.MST.ComponentsTools.ComponentStruct> ledsInClimateChamber { get; set; }
         
         public class AllowedLedsForSelectedOrder
         {
@@ -100,40 +107,13 @@ namespace KittingMst_2
             }
         }
 
-        public class LedReelsInCurrentOrderStruct
+        
+
+        public static void AddLedReel(Graffiti.MST.ComponentsTools.ComponentStruct compData)
         {
-            public string Nc12 { get; set; }
-            public string Nc12Formated { get { return Nc12.Insert(4, " ").Insert(8, " "); } }
-            public string Id { get; set; }
-            public int Qty { get; set; }
-            public string CurrentOrder { get; set; }
-            public string BinLetter { get; set; }
-            public string Collective { get; set; }
-        }
+            LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList.Add(compData);
 
-        public static void AddLedReel(string nc12, string id)
-        {
-            var ledNfo = MST.MES.SqlOperations.SparingLedInfo.GetInfoFor12NC_ID(nc12, id);
-            if(ledNfo.Rows.Count == 0)
-            {
-                MessageBox.Show("Brak danych dla skanowego kodu.");
-                return;
-            }
-            //NC12,ID,Ilosc,ZlecenieString,Data_Czas,Tara,UID
-            int qty = int.Parse(ledNfo.Rows[0]["Ilosc"].ToString());
-            string currentOrder = ledNfo.Rows[0]["ZlecenieString"].ToString();
-            string binLetter = ledNfo.Rows[0]["Tara"].ToString();
-
-            ledReelsForCurrentOrderList.Add(new LedReelsInCurrentOrderStruct
-            {
-                Nc12 = nc12,
-                Id=id,
-                Qty = qty,
-                CurrentOrder = currentOrder,
-                BinLetter = binLetter
-            });
-
-            lvLedUsedForOrder.SetObjects(ledReelsForCurrentOrderList);
+            lvLedUsedForOrder.SetObjects(LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList);
             UpdateLedSummary();
         }
 
@@ -171,15 +151,14 @@ namespace KittingMst_2
                 {
                     first = "Dozwolone diody:"
                 });
-                Char binLetter = 'A';
-                foreach (var nc in AllowedLedsForSelectedOrder.Bins12NcForOrder)
+
+                foreach (var binEntry in LedsUsedInCurrentOrderContainer.nc12RankToBinLetter())
                 {
                     ledSummarySource.Add(new ListViewColumns
                     {
-                        first = $"Bin{binLetter}",
-                        second = nc.Insert(4, " ").Insert(8, " "),
+                        first = $"Bin{binEntry.Value}",
+                        second = binEntry.Key,
                     });
-                    binLetter++;
                 }
             }
 
@@ -213,21 +192,21 @@ namespace KittingMst_2
                 first = "Wczytane diody:",
                 second = "Ilość"
             });
-            var grByLed12Nc = ledReelsForCurrentOrderList.GroupBy(l => l.Nc12);
+            var grByLed12Nc = LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList.GroupBy(l => l.Nc12_Formated_Rank);
             foreach (var nc in grByLed12Nc)
             {
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
-                string qtyFormatted = (nc.Select(x => x.Qty).Sum()).ToString("#,0", nfi); // "1 234 897.11"
+                string qtyFormatted = (nc.Select(x => x.Quantity).Sum()).ToString("#,0", nfi); // "1 234 897.11"
 
                 ledSummarySource.Add(new ListViewColumns
                 {
-                    first = nc.Key.Insert(4, " ").Insert(8, " "),
+                    first = nc.Key,
                     second = qtyFormatted
                 });
             }
             
-            var ledInClimateChamberMatchingThisOrder = ledsInClimateChamber.Where(x => AllowedLedsForSelectedOrder.Bins12NcForOrder.Contains(x.Nc12));
+            var ledInClimateChamberMatchingThisOrder = ledsInClimateChamber.Where(x => AllowedLedsForSelectedOrder.Bins12NcForOrder.Contains(x.Nc12_Formated_Rank));
             if (ledInClimateChamberMatchingThisOrder.Count() > 0)
             {
                 ledSummarySource.Add(new ListViewColumns
@@ -245,12 +224,12 @@ namespace KittingMst_2
                     ledSummarySource.Add(new ListViewColumns
                     {
                         first = led.Nc12_Formated,
-                        second = $"{ led.Qty}szt. {led.Z_RegSeg} "
+                        second = $"{ led.Quantity}szt. {led.Location} "
                     });
                     ledSummarySource.Add(new ListViewColumns
                     {
                         first = "",
-                        second = $"zlecenie: {led.ZlecenieString}"
+                        second = $"zlecenie: {led.ConnectedToOrder}"
                     });
                 }
             }
@@ -295,7 +274,10 @@ namespace KittingMst_2
 
         private static void LoadLedsFromClimateChamber()
         {
-            ledsInClimateChamber = MST.MES.SqlOperations.SparingLedInfo.GetReelsInClimatChanberWithHistory();
+            var componentsInClimateChamber = Graffiti.MST.ComponentsTools.GetDbData.GetComponentsInLocations(Graffiti.MST.ComponentsLocations.ClimateChanberPrefix);
+            var qrList = componentsInClimateChamber.SelectMany(c => c.Value);
+            var componentsData = Graffiti.MST.ComponentsTools.GetDbData.GetComponentDataWithAttributes(qrList.ToList());
+            ledsInClimateChamber = componentsData;
         }
 
         private static void MakeGrpupsForBins()
@@ -328,78 +310,82 @@ namespace KittingMst_2
         {
             if (lvLedUsedForOrder.Groups.Count == 0)
             {
-                var unique12Nc = ledReelsForCurrentOrderList.Select(i => i.Nc12).Distinct();
+                var unique12Nc = LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList.Select(i => i.Nc12_Formated_Rank).Distinct();
                 foreach (var nc in unique12Nc)
                 {
                     lvLedUsedForOrder.Groups.Add(nc, nc);
                 }
             }
-            lvLedUsedForOrder.SetObjects(ledReelsForCurrentOrderList);
+            lvLedUsedForOrder.SetObjects(LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList);
         }
 
-        private static void GetReelsForLotFromDb(string orderNo)
-        {
-            ledReelsForCurrentOrderList.Clear();
-            DataTable sqlTable = MST.MES.SqlOperations.SparingLedInfo.GetReelsForLot(orderNo);
-            List<LedInfo> led12NcIdList = new List<LedInfo>();
+        //private static void GetReelsForLotFromDb(string orderNo)
+        //{
+        //    ledReelsForCurrentOrderList.Clear();
+        //    DataTable sqlTable = MST.MES.SqlOperations.SparingLedInfo.GetReelsForLot(orderNo);
+        //    List<LedInfo> led12NcIdList = new List<LedInfo>();
 
-            foreach (DataRow row in sqlTable.Rows)
-            {
-                string nc12 = row["NC12"].ToString();
-                string id = row["ID"].ToString();
-                if (led12NcIdList.Select(i => i.Id + i.Nc12).Contains(id + nc12)) continue;
+        //    foreach (DataRow row in sqlTable.Rows)
+        //    {
+        //        string nc12 = row["NC12"].ToString();
+        //        string id = row["ID"].ToString();
+        //        if (led12NcIdList.Select(i => i.Id + i.Nc12).Contains(id + nc12)) continue;
 
-                led12NcIdList.Add(new LedInfo(nc12, id));
+        //        led12NcIdList.Add(new LedInfo(nc12, id));
 
-                ledReelsForCurrentOrderList.Add(new LedReelsInCurrentOrderStruct
-                {
-                    Id = id,
-                    Nc12 = nc12
-                });
-            }
+        //        ledReelsForCurrentOrderList.Add(new LedReelsInCurrentOrderStruct
+        //        {
+        //            Id = id,
+        //            Nc12 = nc12
+        //        });
+        //    }
 
-            var detailedLedInfo = MST.MES.SqlOperations.SparingLedInfo.GetInfoForMultiple12NC_ID(led12NcIdList.ToArray());
-            //Tara,NC12,ID,Ilosc,ZlecenieString,Data_Czas,Tara,Partia,Z_RegSeg
+        //    var detailedLedInfo = MST.MES.SqlOperations.SparingLedInfo.GetInfoForMultiple12NC_ID(led12NcIdList.ToArray());
+        //    //Tara,NC12,ID,Ilosc,ZlecenieString,Data_Czas,Tara,Partia,Z_RegSeg
 
-            for (int r = detailedLedInfo.Rows.Count - 1; r >= 0; r--) 
-            {
-                string nc12 = detailedLedInfo.Rows[r]["NC12"].ToString();
-                string id = detailedLedInfo.Rows[r]["ID"].ToString();
-                var ledFromList = ledReelsForCurrentOrderList.Where(l => l.Nc12 == nc12 & l.Id == id).First();
-                if (!string.IsNullOrWhiteSpace(ledFromList.BinLetter)) continue;
+        //    for (int r = detailedLedInfo.Rows.Count - 1; r >= 0; r--) 
+        //    {
+        //        string nc12 = detailedLedInfo.Rows[r]["NC12"].ToString();
+        //        string id = detailedLedInfo.Rows[r]["ID"].ToString();
+        //        var ledFromList = ledReelsForCurrentOrderList.Where(l => l.Nc12 == nc12 & l.Id == id).First();
+        //        if (!string.IsNullOrWhiteSpace(ledFromList.BinLetter)) continue;
 
-                string currentOrderNo = detailedLedInfo.Rows[r]["ZlecenieString"].ToString();
-                int qty = int.Parse(detailedLedInfo.Rows[r]["Ilosc"].ToString());
-                string binLetter = detailedLedInfo.Rows[r]["Tara"].ToString();
+        //        string currentOrderNo = detailedLedInfo.Rows[r]["ZlecenieString"].ToString();
+        //        int qty = int.Parse(detailedLedInfo.Rows[r]["Ilosc"].ToString());
+        //        string binLetter = detailedLedInfo.Rows[r]["Tara"].ToString();
 
-                ledFromList.Qty = qty;
-                ledFromList.CurrentOrder = currentOrderNo;
-                ledFromList.BinLetter = binLetter;
-            }
+        //        ledFromList.Qty = qty;
+        //        ledFromList.CurrentOrder = currentOrderNo;
+        //        ledFromList.BinLetter = binLetter;
+        //    }
 
 
-        }
+        //}
 
         private static void GetReelsForLotFromGraffiti(string orderNo)
         {
-            ledReelsForCurrentOrderList.Clear();
+            LedsUsedInCurrentOrderContainer. ledReelsForCurrentOrderList.Clear();
             List<LedInfo> led12NcIdList = new List<LedInfo>();
 
-            var reelsFor12Nc = Graffiti.MST.ComponentsTools.GetDbData.GetComponentsDataFrom12NcBatch(selectedOrder.ledCol12NcGraffitiOnly);
-            var reelForThisOrder = reelsFor12Nc.Where(r => r.ConnectedToOrder.ToString() == orderNo);
-            foreach (var reel in reelForThisOrder)
-            {
-                led12NcIdList.Add(new LedInfo(reel.Nc12, reel.Id));
+            var componentsOnElec = ComponentsFromGraffiti.GetComponentsDataInLocation("EL:");
+            var reelForThisOrder = 
+                componentsOnElec.Where(r => r.ConnectedToOrder.ToString() == orderNo)
+                .Where(c=>c.Nc12.StartsWith("4010460") || c.Nc12.StartsWith("4010560"));
 
-                ledReelsForCurrentOrderList.Add(new LedReelsInCurrentOrderStruct
-                {
-                    Id = reel.Id,
-                    Nc12 = reel.Nc12_Formated_Rank,
-                    Collective = reel.Nc12,
-                    Qty = (int)reel.Quantity,
-                    CurrentOrder = reel.ConnectedToOrder.ToString()
-                });
-            }
+            LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList = reelForThisOrder.ToList();
+
+            //foreach (var reel in reelForThisOrder)
+            //{
+            //    led12NcIdList.Add(new LedInfo(reel.Nc12, reel.Id));
+            //    LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList.Add(new LedReelsInCurrentOrderStruct
+            //    {
+            //        Id = reel.Id,
+            //        Nc12 = reel.Nc12_Formated_Rank,
+            //        Collective = reel.Nc12,
+            //        Qty = (int)reel.Quantity,
+            //        CurrentOrder = reel.ConnectedToOrder.ToString()
+            //    });
+            //}
         }
 
         public static string GenerateLedName(string member12Nc)

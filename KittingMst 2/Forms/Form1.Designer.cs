@@ -101,7 +101,7 @@ namespace KittingMst_2
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 600F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 800F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
@@ -111,7 +111,7 @@ namespace KittingMst_2
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1418, 900);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1891, 1055);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -125,9 +125,9 @@ namespace KittingMst_2
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(600, 900);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(800, 1055);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // dgvOrdersList
@@ -147,14 +147,15 @@ namespace KittingMst_2
             this.Column4,
             this.ColProductionQty});
             this.dgvOrdersList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvOrdersList.Location = new System.Drawing.Point(1, 46);
+            this.dgvOrdersList.Location = new System.Drawing.Point(1, 56);
             this.dgvOrdersList.Margin = new System.Windows.Forms.Padding(1);
             this.dgvOrdersList.MultiSelect = false;
             this.dgvOrdersList.Name = "dgvOrdersList";
             this.dgvOrdersList.ReadOnly = true;
             this.dgvOrdersList.RowHeadersVisible = false;
+            this.dgvOrdersList.RowHeadersWidth = 51;
             this.dgvOrdersList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOrdersList.Size = new System.Drawing.Size(598, 853);
+            this.dgvOrdersList.Size = new System.Drawing.Size(798, 998);
             this.dgvOrdersList.TabIndex = 1;
             this.dgvOrdersList.SelectionChanged += new System.EventHandler(this.dgvOrdersList_SelectionChanged);
             // 
@@ -163,8 +164,10 @@ namespace KittingMst_2
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.ColOrderNo.DefaultCellStyle = dataGridViewCellStyle1;
             this.ColOrderNo.HeaderText = "Numer";
+            this.ColOrderNo.MinimumWidth = 6;
             this.ColOrderNo.Name = "ColOrderNo";
             this.ColOrderNo.ReadOnly = true;
+            this.ColOrderNo.Width = 125;
             // 
             // Column7
             // 
@@ -173,8 +176,10 @@ namespace KittingMst_2
             dataGridViewCellStyle2.NullValue = null;
             this.Column7.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column7.HeaderText = "10NC";
+            this.Column7.MinimumWidth = 6;
             this.Column7.Name = "Column7";
             this.Column7.ReadOnly = true;
+            this.Column7.Width = 125;
             // 
             // Column2
             // 
@@ -183,8 +188,10 @@ namespace KittingMst_2
             dataGridViewCellStyle3.NullValue = null;
             this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column2.HeaderText = "Start";
+            this.Column2.MinimumWidth = 6;
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
+            this.Column2.Width = 125;
             // 
             // Column3
             // 
@@ -193,8 +200,10 @@ namespace KittingMst_2
             dataGridViewCellStyle4.NullValue = "-";
             this.Column3.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column3.HeaderText = "Koniec";
+            this.Column3.MinimumWidth = 6;
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            this.Column3.Width = 125;
             // 
             // Column6
             // 
@@ -203,24 +212,30 @@ namespace KittingMst_2
             dataGridViewCellStyle5.NullValue = "-";
             this.Column6.DefaultCellStyle = dataGridViewCellStyle5;
             this.Column6.HeaderText = "Plan wysyłki";
+            this.Column6.MinimumWidth = 6;
             this.Column6.Name = "Column6";
             this.Column6.ReadOnly = true;
+            this.Column6.Width = 125;
             // 
             // Column4
             // 
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.Column4.DefaultCellStyle = dataGridViewCellStyle6;
             this.Column4.HeaderText = "Ilość wysyłki";
+            this.Column4.MinimumWidth = 6;
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
+            this.Column4.Width = 125;
             // 
             // ColProductionQty
             // 
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.ColProductionQty.DefaultCellStyle = dataGridViewCellStyle7;
             this.ColProductionQty.HeaderText = "Ilość produkcji";
+            this.ColProductionQty.MinimumWidth = 6;
             this.ColProductionQty.Name = "ColProductionQty";
             this.ColProductionQty.ReadOnly = true;
+            this.ColProductionQty.Width = 125;
             // 
             // panel1
             // 
@@ -233,8 +248,8 @@ namespace KittingMst_2
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(1);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(5);
-            this.panel1.Size = new System.Drawing.Size(598, 43);
+            this.panel1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel1.Size = new System.Drawing.Size(798, 53);
             this.panel1.TabIndex = 2;
             // 
             // cbNewOnly
@@ -245,9 +260,10 @@ namespace KittingMst_2
             this.cbNewOnly.Dock = System.Windows.Forms.DockStyle.Left;
             this.cbNewOnly.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbNewOnly.ForeColor = System.Drawing.Color.White;
-            this.cbNewOnly.Location = new System.Drawing.Point(142, 5);
+            this.cbNewOnly.Location = new System.Drawing.Point(167, 6);
+            this.cbNewOnly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbNewOnly.Name = "cbNewOnly";
-            this.cbNewOnly.Size = new System.Drawing.Size(135, 33);
+            this.cbNewOnly.Size = new System.Drawing.Size(158, 41);
             this.cbNewOnly.TabIndex = 4;
             this.cbNewOnly.Text = "pokaż tylko nowe";
             this.cbNewOnly.UseVisualStyleBackColor = true;
@@ -258,9 +274,10 @@ namespace KittingMst_2
             this.pbRefresh.Dock = System.Windows.Forms.DockStyle.Right;
             this.pbRefresh.Image = global::KittingMst_2.Properties.Resources.spinner30x30;
             this.pbRefresh.InitialImage = global::KittingMst_2.Properties.Resources.spinner30x30;
-            this.pbRefresh.Location = new System.Drawing.Point(446, 5);
+            this.pbRefresh.Location = new System.Drawing.Point(595, 6);
+            this.pbRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pbRefresh.Name = "pbRefresh";
-            this.pbRefresh.Size = new System.Drawing.Size(45, 33);
+            this.pbRefresh.Size = new System.Drawing.Size(60, 41);
             this.pbRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbRefresh.TabIndex = 3;
             this.pbRefresh.TabStop = false;
@@ -273,9 +290,10 @@ namespace KittingMst_2
             this.bRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.bRefresh.ForeColor = System.Drawing.Color.White;
-            this.bRefresh.Location = new System.Drawing.Point(491, 5);
+            this.bRefresh.Location = new System.Drawing.Point(655, 6);
+            this.bRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.bRefresh.Name = "bRefresh";
-            this.bRefresh.Size = new System.Drawing.Size(102, 33);
+            this.bRefresh.Size = new System.Drawing.Size(136, 41);
             this.bRefresh.TabIndex = 2;
             this.bRefresh.Text = "Odśwież";
             this.bRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -290,9 +308,10 @@ namespace KittingMst_2
             this.cbHideFinished.Dock = System.Windows.Forms.DockStyle.Left;
             this.cbHideFinished.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbHideFinished.ForeColor = System.Drawing.Color.White;
-            this.cbHideFinished.Location = new System.Drawing.Point(5, 5);
+            this.cbHideFinished.Location = new System.Drawing.Point(7, 6);
+            this.cbHideFinished.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbHideFinished.Name = "cbHideFinished";
-            this.cbHideFinished.Size = new System.Drawing.Size(137, 33);
+            this.cbHideFinished.Size = new System.Drawing.Size(160, 41);
             this.cbHideFinished.TabIndex = 1;
             this.cbHideFinished.Text = "ukryj zakończone";
             this.cbHideFinished.UseVisualStyleBackColor = true;
@@ -301,7 +320,7 @@ namespace KittingMst_2
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 400F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 533F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Controls.Add(this.panel5, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.panel4, 0, 3);
@@ -312,14 +331,15 @@ namespace KittingMst_2
             this.tableLayoutPanel3.Controls.Add(this.lvLedsSummary, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.panel3, 1, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(603, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(804, 4);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 4;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 330F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 406F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(812, 894);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1083, 1047);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // panel5
@@ -327,11 +347,11 @@ namespace KittingMst_2
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.panel5.Controls.Add(this.bKT);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(1, 855);
+            this.panel5.Location = new System.Drawing.Point(1, 999);
             this.panel5.Margin = new System.Windows.Forms.Padding(1);
             this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(5);
-            this.panel5.Size = new System.Drawing.Size(398, 38);
+            this.panel5.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel5.Size = new System.Drawing.Size(531, 47);
             this.panel5.TabIndex = 9;
             // 
             // bKT
@@ -341,9 +361,10 @@ namespace KittingMst_2
             this.bKT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bKT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.bKT.ForeColor = System.Drawing.Color.White;
-            this.bKT.Location = new System.Drawing.Point(5, 5);
+            this.bKT.Location = new System.Drawing.Point(7, 6);
+            this.bKT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.bKT.Name = "bKT";
-            this.bKT.Size = new System.Drawing.Size(171, 28);
+            this.bKT.Size = new System.Drawing.Size(228, 35);
             this.bKT.TabIndex = 1;
             this.bKT.Text = "Karta technologiczna";
             this.bKT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -354,11 +375,11 @@ namespace KittingMst_2
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(401, 855);
+            this.panel4.Location = new System.Drawing.Point(534, 999);
             this.panel4.Margin = new System.Windows.Forms.Padding(1);
             this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(5);
-            this.panel4.Size = new System.Drawing.Size(410, 38);
+            this.panel4.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel4.Size = new System.Drawing.Size(548, 47);
             this.panel4.TabIndex = 8;
             // 
             // lvLedUsedForOrder
@@ -377,10 +398,11 @@ namespace KittingMst_2
             this.lvLedUsedForOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvLedUsedForOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lvLedUsedForOrder.GridLines = true;
-            this.lvLedUsedForOrder.Location = new System.Drawing.Point(1, 371);
+            this.lvLedUsedForOrder.HideSelection = false;
+            this.lvLedUsedForOrder.Location = new System.Drawing.Point(1, 456);
             this.lvLedUsedForOrder.Margin = new System.Windows.Forms.Padding(1);
             this.lvLedUsedForOrder.Name = "lvLedUsedForOrder";
-            this.lvLedUsedForOrder.Size = new System.Drawing.Size(398, 482);
+            this.lvLedUsedForOrder.Size = new System.Drawing.Size(531, 541);
             this.lvLedUsedForOrder.TabIndex = 3;
             this.lvLedUsedForOrder.UseCellFormatEvents = true;
             this.lvLedUsedForOrder.UseCompatibleStateImageBehavior = false;
@@ -391,7 +413,7 @@ namespace KittingMst_2
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Nc12Formated";
+            this.olvColumn1.AspectName = "Nc12_Formated_Rank";
             this.olvColumn1.AspectToStringFormat = "";
             this.olvColumn1.IsEditable = false;
             this.olvColumn1.Text = "12NC";
@@ -407,13 +429,13 @@ namespace KittingMst_2
             // 
             // olvColumn5
             // 
-            this.olvColumn5.AspectName = "Qty";
+            this.olvColumn5.AspectName = "Quantity";
             this.olvColumn5.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
             this.olvColumn5.Text = "Ilość";
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "CurrentOrder";
+            this.olvColumn6.AspectName = "ConnectedToOrder";
             this.olvColumn6.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
             this.olvColumn6.IsButton = true;
             this.olvColumn6.Text = "Akt. przypisane do";
@@ -434,11 +456,12 @@ namespace KittingMst_2
             this.lvSelectedOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lvSelectedOrder.GridLines = true;
             this.lvSelectedOrder.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvSelectedOrder.HideSelection = false;
             this.lvSelectedOrder.Location = new System.Drawing.Point(1, 1);
             this.lvSelectedOrder.Margin = new System.Windows.Forms.Padding(1);
             this.lvSelectedOrder.Name = "lvSelectedOrder";
             this.lvSelectedOrder.ShowGroups = false;
-            this.lvSelectedOrder.Size = new System.Drawing.Size(398, 328);
+            this.lvSelectedOrder.Size = new System.Drawing.Size(531, 404);
             this.lvSelectedOrder.TabIndex = 1;
             this.lvSelectedOrder.UseCellFormatEvents = true;
             this.lvSelectedOrder.UseCompatibleStateImageBehavior = false;
@@ -478,20 +501,21 @@ namespace KittingMst_2
             this.panel2.Controls.Add(this.bLoadLeds);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(1, 331);
+            this.panel2.Location = new System.Drawing.Point(1, 407);
             this.panel2.Margin = new System.Windows.Forms.Padding(1);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(5);
-            this.panel2.Size = new System.Drawing.Size(398, 38);
+            this.panel2.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel2.Size = new System.Drawing.Size(531, 47);
             this.panel2.TabIndex = 4;
             // 
             // pbLedLoad
             // 
             this.pbLedLoad.Dock = System.Windows.Forms.DockStyle.Left;
             this.pbLedLoad.Image = global::KittingMst_2.Properties.Resources.spinner30x30;
-            this.pbLedLoad.Location = new System.Drawing.Point(298, 5);
+            this.pbLedLoad.Location = new System.Drawing.Point(398, 6);
+            this.pbLedLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pbLedLoad.Name = "pbLedLoad";
-            this.pbLedLoad.Size = new System.Drawing.Size(45, 28);
+            this.pbLedLoad.Size = new System.Drawing.Size(60, 35);
             this.pbLedLoad.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLedLoad.TabIndex = 2;
             this.pbLedLoad.TabStop = false;
@@ -504,11 +528,11 @@ namespace KittingMst_2
             this.bAddLeds.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bAddLeds.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.bAddLeds.ForeColor = System.Drawing.Color.White;
-            this.bAddLeds.Location = new System.Drawing.Point(196, 5);
-            this.bAddLeds.Margin = new System.Windows.Forms.Padding(50, 3, 5, 3);
+            this.bAddLeds.Location = new System.Drawing.Point(262, 6);
+            this.bAddLeds.Margin = new System.Windows.Forms.Padding(67, 4, 7, 4);
             this.bAddLeds.Name = "bAddLeds";
             this.bAddLeds.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.bAddLeds.Size = new System.Drawing.Size(102, 28);
+            this.bAddLeds.Size = new System.Drawing.Size(136, 35);
             this.bAddLeds.TabIndex = 3;
             this.bAddLeds.Text = "Dodaj...";
             this.bAddLeds.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -523,9 +547,10 @@ namespace KittingMst_2
             this.bLoadLeds.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bLoadLeds.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.bLoadLeds.ForeColor = System.Drawing.Color.White;
-            this.bLoadLeds.Location = new System.Drawing.Point(94, 5);
+            this.bLoadLeds.Location = new System.Drawing.Point(126, 6);
+            this.bLoadLeds.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.bLoadLeds.Name = "bLoadLeds";
-            this.bLoadLeds.Size = new System.Drawing.Size(102, 28);
+            this.bLoadLeds.Size = new System.Drawing.Size(136, 35);
             this.bLoadLeds.TabIndex = 0;
             this.bLoadLeds.Text = "Wczytaj";
             this.bLoadLeds.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -537,11 +562,11 @@ namespace KittingMst_2
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(5, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(3);
+            this.label1.Location = new System.Drawing.Point(7, 6);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(3);
-            this.label1.Size = new System.Drawing.Size(89, 28);
+            this.label1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.label1.Size = new System.Drawing.Size(119, 35);
             this.label1.TabIndex = 1;
             this.label1.Text = "Diody LED";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -557,11 +582,12 @@ namespace KittingMst_2
             this.olvColumn8});
             this.treeProductStructure.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeProductStructure.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeProductStructure.Location = new System.Drawing.Point(401, 1);
+            this.treeProductStructure.HideSelection = false;
+            this.treeProductStructure.Location = new System.Drawing.Point(534, 1);
             this.treeProductStructure.Margin = new System.Windows.Forms.Padding(1);
             this.treeProductStructure.Name = "treeProductStructure";
             this.treeProductStructure.ShowGroups = false;
-            this.treeProductStructure.Size = new System.Drawing.Size(410, 328);
+            this.treeProductStructure.Size = new System.Drawing.Size(548, 404);
             this.treeProductStructure.TabIndex = 5;
             this.treeProductStructure.UseCompatibleStateImageBehavior = false;
             this.treeProductStructure.View = System.Windows.Forms.View.Details;
@@ -599,11 +625,12 @@ namespace KittingMst_2
             this.lvLedsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvLedsSummary.GridLines = true;
             this.lvLedsSummary.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvLedsSummary.Location = new System.Drawing.Point(401, 371);
+            this.lvLedsSummary.HideSelection = false;
+            this.lvLedsSummary.Location = new System.Drawing.Point(534, 456);
             this.lvLedsSummary.Margin = new System.Windows.Forms.Padding(1);
             this.lvLedsSummary.Name = "lvLedsSummary";
             this.lvLedsSummary.ShowGroups = false;
-            this.lvLedsSummary.Size = new System.Drawing.Size(410, 482);
+            this.lvLedsSummary.Size = new System.Drawing.Size(548, 541);
             this.lvLedsSummary.TabIndex = 6;
             this.lvLedsSummary.UseCompatibleStateImageBehavior = false;
             this.lvLedsSummary.View = System.Windows.Forms.View.Details;
@@ -626,10 +653,10 @@ namespace KittingMst_2
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(401, 331);
+            this.panel3.Location = new System.Drawing.Point(534, 407);
             this.panel3.Margin = new System.Windows.Forms.Padding(1);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(410, 38);
+            this.panel3.Size = new System.Drawing.Size(548, 47);
             this.panel3.TabIndex = 7;
             // 
             // columnHeader1
@@ -642,10 +669,11 @@ namespace KittingMst_2
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1418, 900);
+            this.ClientSize = new System.Drawing.Size(1891, 1055);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Kitting MST v2";
             this.Load += new System.EventHandler(this.Form1_Load);
