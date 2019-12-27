@@ -92,7 +92,9 @@ namespace KittingMst_2
 
         private async void bLoadLeds_Click(object sender, EventArgs e)
         {
+
             pbLedLoad.Visible = true;
+            await ComponentsFromGraffiti.RefreshDataFromDb();
             await LedUsedInOrder.LoadLeds(SelectedOrder.selectedOrder.orderNo);
             pbLedLoad.Visible = false;
             bAddLeds.Visible = true;
@@ -191,7 +193,7 @@ namespace KittingMst_2
             {
                 if (scanForm.ShowDialog() == DialogResult.OK) 
                 {
-                    if (!LedUsedInOrder.AllowedLedsForSelectedOrder.Bins12NcForOrder.Contains(scanForm.graffitiCompData.Nc12_Formated_Rank))
+                    if (!LedUsedInOrder.AllowedLedsForSelectedOrder.Bins12NcForOrder.Select(l=>l.CollectiveFormatedRank).Contains(scanForm.graffitiCompData.Nc12_Formated_Rank))
                     {
                         MessageBox.Show("Zeskanowany kod 12NC jest niezgodny z kodem zaplanowanym do produkcji." + Environment.NewLine
                                          + "Dopuszczlne kody 12NC:" + Environment.NewLine
@@ -199,7 +201,7 @@ namespace KittingMst_2
                         return;
                     }
 
-                    string binLetter = LedUsedInOrder.AllowedLedsForSelectedOrder.GetBinLetter(scanForm.nc12);
+                    string binLetter = LedUsedInOrder.AllowedLedsForSelectedOrder.GetBinLetter(scanForm.graffitiCompData.Nc12_Formated_Rank);
                     if (GlobalParameters.release)
                     {
                         //MST.MES.SqlOperations.SparingLedInfo.UpdateLedZlecenieStringBinIdLocation(scanForm.nc12, scanForm.id, SelectedOrder.selectedOrder.orderNo, binLetter, "Kitting");

@@ -24,38 +24,41 @@ namespace KittingMst_2
                 return Graffiti.MST.KittingTools.ListNc12RankToBinLetter(ledReelsForCurrentOrderList);
             }
         }
+
         public static ObjectListView lvLedUsedForOrder;
         public static ObjectListView lvLedsSummary;
         private static List<ListViewColumns> ledSummarySource = new List<ListViewColumns>();
 
-        public static IEnumerable<Graffiti.MST.ComponentsTools.ComponentStruct> ledsInClimateChamber { get; set; }
+
         
         public class AllowedLedsForSelectedOrder
         {
             public static bool AllBinsHaveCollective()
             {
-                return true; //graffiti
+                if (Bins12NcForOrder.First().GraffitiDataStyle) return true;
                 foreach (var bin12Nc in Bins12NcForOrder)
                 {
-                    if (!LedCollectiveDb.nc12ToCollective.ContainsKey(bin12Nc)) return false;
+                    if (!LedCollectiveDb.nc12ToCollective.ContainsKey(bin12Nc.Collective12Nc)) return false;
                 }
                 return true;
             }
 
-            public static string[] Bins12NcForOrder { get { return SelectedOrder.selectedOrder.ledsChoosenByPlanner; } }
-            public static  string GetBinLetter(string bin12Nc)
+            public static List<MST.MES.LedRankTools.LedRankStruct> Bins12NcForOrder { get { return SelectedOrder.selectedOrder.LedChoosenStructList; } }
+            public static  string GetBinLetter(string bin12Nc_formated_rank)
             {
                 Char binLetter = 'A';
                 if (Bins12NcForOrder != null)
                 {
                     foreach (var nc in Bins12NcForOrder)
                     {
-                        if (bin12Nc == nc) return binLetter.ToString();
+                        if (bin12Nc_formated_rank == nc.CollectiveFormatedRank) return binLetter.ToString();
                         binLetter++;
                     }
                 }
                 return null;
             }
+
+
 
             public static List<string> GetListOfMembersSameCollective(string col12Nc)
             {
@@ -71,23 +74,22 @@ namespace KittingMst_2
 
                 foreach (var bin in Bins12NcForOrder)
                 {
-                    if (LedCollectiveDb.nc12ToCollective[bin].collective == col) result++;
+                    if (LedCollectiveDb.nc12ToCollective[bin.Collective12Nc].collective == col) result++;
                 }
                 return result;
             }
 
             public static int GetNumberOfLedForMember12Nc(string col12Nc_Rank, MST.MES.Data_structures.DevToolsModelStructure dtModel)
             {
-                var splitted = col12Nc_Rank.Split(' ');
-                string nc12 = splitted[0];
-                string rank = splitted[1];
+                var ledStruct = MST.MES.LedRankTools.MesDbFieldToLedStruct(col12Nc_Rank).First();
+                
                 //if (!LedCollectiveDb.nc12ToCollective.ContainsKey(member12Nc)) return 0;
-                var colQty = MST.MES.DtTools.GetLedCountOfSpecific12Nc(dtModel, nc12);
-                var binsWithSameCollective = selectedOrder.LedChoosenStructList.Where(l => l.Nc12 == nc12).ToList();
+                var colQty = MST.MES.DtTools.GetLedCountOfSpecific12Nc(dtModel, ledStruct.Collective12Nc);
+                var binsWithSameCollective = selectedOrder.LedChoosenStructList.Where(l => l.Collective12Nc == ledStruct.Collective12Nc).ToList();
                 var indexOfMember = 0;
                 for (int i = 0; i < binsWithSameCollective.Count; i++)
                 {
-                    if(binsWithSameCollective[i].Rank == rank)
+                    if(binsWithSameCollective[i].CollectiveFormatedRank == ledStruct.CollectiveFormatedRank)
                     {
                         indexOfMember = i;
                         break;
@@ -152,12 +154,12 @@ namespace KittingMst_2
                     first = "Dozwolone diody:"
                 });
 
-                foreach (var binEntry in LedsUsedInCurrentOrderContainer.nc12RankToBinLetter())
+                foreach (var binEntry in AllowedLedsForSelectedOrder.Bins12NcForOrder)
                 {
                     ledSummarySource.Add(new ListViewColumns
                     {
-                        first = $"Bin{binEntry.Value}",
-                        second = binEntry.Key,
+                        first = $"Bin{AllowedLedsForSelectedOrder.GetBinLetter(binEntry.CollectiveFormatedRank)}",
+                        second = binEntry.CollectiveFormatedRank
                     });
                 }
             }
@@ -174,11 +176,11 @@ namespace KittingMst_2
             {
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
-                string qtyFormatted = (AllowedLedsForSelectedOrder.GetNumberOfLedForMember12Nc(nc, DevTools.dtModel00) * selectedOrder.orderedQty).ToString("#,0", nfi); // "1 234 897.11"
+                string qtyFormatted = (AllowedLedsForSelectedOrder.GetNumberOfLedForMember12Nc(nc.Collective12Nc, DevTools.dtModel00) * selectedOrder.orderedQty).ToString("#,0", nfi); // "1 234 897.11"
 
                 ledSummarySource.Add(new ListViewColumns
                 {
-                    first = nc.Insert(4, " ").Insert(8, " "),
+                    first = nc.CollectiveFormatedRank,
                     second = qtyFormatted
                 });
             }
@@ -206,7 +208,7 @@ namespace KittingMst_2
                 });
             }
             
-            var ledInClimateChamberMatchingThisOrder = ledsInClimateChamber.Where(x => AllowedLedsForSelectedOrder.Bins12NcForOrder.Contains(x.Nc12_Formated_Rank));
+            var ledInClimateChamberMatchingThisOrder = ComponentsFromGraffiti.componentsInClimateChamber.Where(x => AllowedLedsForSelectedOrder.Bins12NcForOrder.Select(l=>l.CollectiveFormatedRank).Contains(x.Nc12_Formated_Rank));
             if (ledInClimateChamberMatchingThisOrder.Count() > 0)
             {
                 ledSummarySource.Add(new ListViewColumns
@@ -265,19 +267,10 @@ namespace KittingMst_2
             List<Task> tasksList = new List<Task>();
             //tasksList.Add(Task.Run(() => GetReelsForLotFromDb(orderNo)));
             tasksList.Add(Task.Run(() => GetReelsForLotFromGraffiti(orderNo)));
-            tasksList.Add(Task.Run(() => LoadLedsFromClimateChamber()));
             await Task.WhenAll(tasksList);
             //MakeGrpupsForBins();
 
             FillOutLedsForOrder();
-        }
-
-        private static void LoadLedsFromClimateChamber()
-        {
-            var componentsInClimateChamber = Graffiti.MST.ComponentsTools.GetDbData.GetComponentsInLocations(Graffiti.MST.ComponentsLocations.ClimateChanberPrefix);
-            var qrList = componentsInClimateChamber.SelectMany(c => c.Value);
-            var componentsData = Graffiti.MST.ComponentsTools.GetDbData.GetComponentDataWithAttributes(qrList.ToList());
-            ledsInClimateChamber = componentsData;
         }
 
         private static void MakeGrpupsForBins()
@@ -364,10 +357,9 @@ namespace KittingMst_2
 
         private static void GetReelsForLotFromGraffiti(string orderNo)
         {
-            LedsUsedInCurrentOrderContainer. ledReelsForCurrentOrderList.Clear();
-            List<LedInfo> led12NcIdList = new List<LedInfo>();
-
-            var componentsOnElec = ComponentsFromGraffiti.GetComponentsDataInLocation("EL:");
+            LedsUsedInCurrentOrderContainer.ledReelsForCurrentOrderList.Clear();
+            
+            var componentsOnElec = ComponentsFromGraffiti.GetComponentsDataInLocationPrefix("EL2.");
             var reelForThisOrder = 
                 componentsOnElec.Where(r => r.ConnectedToOrder.ToString() == orderNo)
                 .Where(c=>c.Nc12.StartsWith("4010460") || c.Nc12.StartsWith("4010560"));
